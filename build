@@ -26,7 +26,7 @@ build_all() {
 
   # run raw2c against armboot.bin
   echo "generating .c and .h files from armboot.bin, moving to $NSWITCH/source."
-  cd $CURDIR && $DEVKITARM/bin/raw2c armboot.bin
+  cd $CURDIR && $DEVKITPRO/tools/bin/raw2c armboot.bin
   mv $CURDIR/armboot.c $CURDIR/armboot.h $NSWITCH/source
   echo
 
@@ -74,7 +74,7 @@ build_nswitch() {
   fi
 
   # run raw2c against armboot.bin, and move to build directory
-  cd $CURDIR && $DEVKITARM/bin/raw2c armboot.bin
+  cd $CURDIR && $DEVKITPRO/tools/bin/raw2c armboot.bin
   echo
   echo "moving armboot.c and armboot.h to $NSWITCH/source"
   mv $CURDIR/armboot.c $CURDIR/armboot.h $NSWITCH/source

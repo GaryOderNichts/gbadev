@@ -43,7 +43,7 @@ struct armboot_config
 #define SET_LOLSERIAL_DEBUG	1<<2
 
 bool __debug = false;
-bool __useIOS = true;
+bool __useIOS = false;
 armboot_config *redirectedGecko = (armboot_config*)0x81200000;
 
 // Check if string X is in current argument

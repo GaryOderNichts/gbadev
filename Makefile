@@ -13,4 +13,4 @@ boot.dol: $(ARMBOOT-DEPS) $(NSWITCH-DEPS)
 clean:
 	@make -C $(ARMBOOT) clean
 	@make -C nswitch clean
-	@rm boot.dol
+	@rm -f boot.dol

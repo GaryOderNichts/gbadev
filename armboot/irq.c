@@ -14,9 +14,7 @@ Copyright (C) 2009			Andre Heider "dhewg" <dhewg@wiibrew.org>
 #include "hollywood.h"
 #include "gecko.h"
 #include "utils.h"
-#include "ipc.h"
 #include "crypto.h"
-#include "nand.h"
 #include "sdhc.h"
 
 static u32 _alarm_frequency = 0;
@@ -63,7 +61,7 @@ void irq_handler(void)
 //		gecko_printf("IRQ: NAND\n");
 		write32(NAND_CMD, 0x7fffffff); // shut it up
 		write32(HW_ARMIRQFLAG, IRQF_NAND);
-		nand_irq();
+		//nand_irq();
 	}
 	if(flags & IRQF_GPIO1B) {
 //		gecko_printf("IRQ: GPIO1B\n");
@@ -81,7 +79,7 @@ void irq_handler(void)
 	}
 	if(flags & IRQF_IPC) {
 		//gecko_printf("IRQ: IPC\n");
-		ipc_irq();
+		//ipc_irq();
 		write32(HW_ARMIRQFLAG, IRQF_IPC);
 	}
 	if(flags & IRQF_AES) {

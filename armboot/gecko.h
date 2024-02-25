@@ -14,7 +14,18 @@ Copyright (C) 2009		Andre Heider "dhewg" <dhewg@wiibrew.org>
 #ifndef __GECKO_H__
 #define __GECKO_H__
 
-#ifdef CAN_HAZ_USBGECKO
+#if 1
+
+#include "filelog.h"
+
+#define gecko_init(...) do { } while(0)
+#define gecko_enable_console(...) do { } while(0)
+#define gecko_printf(fmt, ...) Log(fmt, ##__VA_ARGS__)
+#define gecko_process(...) do { } while(0)
+#define gecko_timer(...) do { } while(0)
+#define gecko_enable(...) do { } while(0)
+
+#elif defined CAN_HAZ_USBGECKO
 
 #include "types.h"
 

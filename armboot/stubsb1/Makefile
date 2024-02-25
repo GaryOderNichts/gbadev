@@ -13,8 +13,7 @@ LD = $(PREFIX)ld
 OBJCOPY = $(PREFIX)objcopy
 RANLIB = $(PREFIX)ranlib
 STRIP = $(PREFIX)strip
-#RAW2C = c:/devkitpro/devkitppc/bin/raw2c
-RAW2C = $(DEVKITARM)/bin/raw2c
+RAW2C = $(DEVKITPRO)/tools/bin/raw2c
 COPY = cp
 
 MACHDEP = -mcpu=750 -mno-eabi -mhard-float -DTINY -DDEBUG

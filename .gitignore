@@ -2,6 +2,7 @@ git_version.h
 *.d
 *.bin
 *.elf
+*.dol
 *.map
 *~
 *.o
@@ -13,3 +14,5 @@ armboot/stubsb1.h
 armboot/stubsb1.c
 nswitch/source/armboot.h
 nswitch/source/armboot.c
+compiled.tar
+/.vscode/

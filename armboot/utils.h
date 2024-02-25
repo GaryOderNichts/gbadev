@@ -16,14 +16,14 @@ Copyright (C) 2008, 2009	Hector Martin "marcan" <marcan@marcansoft.com>
 
 static inline u32 read32(u32 addr)
 {
-	u32 data;
-	__asm__ volatile ("ldr\t%0, [%1]" : "=l" (data) : "l" (addr));
-	return data;
+    u32 data;
+    __asm__ volatile ("ldr\t%0, [%1]" : "=r" (data) : "r" (addr));
+    return data;
 }
 
 static inline void write32(u32 addr, u32 data)
 {
-	__asm__ volatile ("str\t%0, [%1]" : : "l" (data), "l" (addr));
+    __asm__ volatile ("str\t%0, [%1]" : : "r" (data), "r" (addr));
 }
 
 static inline u32 set32(u32 addr, u32 set)

@@ -171,10 +171,15 @@ Copyright (C) 2008, 2009	John Kelley <wiidev@kelley.ca>
 /* MEMORY CONTROLLER Registers */
 
 #define		MEM_REG_BASE		0xd8b4000
-#define		MEM_PROT		(MEM_REG_BASE+0x20a)
+#define		MEM_PROT			(MEM_REG_BASE+0x20a)
 #define		MEM_PROT_START		(MEM_REG_BASE+0x20c)
 #define		MEM_PROT_END		(MEM_REG_BASE+0x20e)
+#define 	MEM_REFRESH_FLAG    (MEM_REG_BASE+0x226)
 #define		MEM_FLUSHREQ		(MEM_REG_BASE+0x228)
 #define		MEM_FLUSHACK		(MEM_REG_BASE+0x22a)
+#define 	MEM_SEQ_REG_VAL     (MEM_REG_BASE+0x2C4)
+#define 	MEM_SEQ_REG_ADDR    (MEM_REG_BASE+0x2C6)
+#define 	MEM_SEQ0_REG_VAL    (MEM_REG_BASE+0x300)
+#define 	MEM_SEQ0_REG_ADDR   (MEM_REG_BASE+0x302)
 
 #endif

@@ -14,13 +14,13 @@ Copyright (C) 2008, 2009	Sven Peter <svenpeter@gmail.com>
 #include "utils.h"
 #include "memory.h"
 #include "irq.h"
-#include "ipc.h"
 #include "gecko.h"
 #include "string.h"
 #include "seeprom.h"
 
-#define		AES_CMD_RESET	0
-#define		AES_CMD_DECRYPT	0x9800
+#define     AES_CMD_RESET   0
+#define     AES_CMD_ENCRYPT 0x9000
+#define     AES_CMD_DECRYPT 0x9800
 
 otp_t otp;
 seeprom_t seeprom;
@@ -48,25 +48,6 @@ void crypto_initialize(void)
 	while (read32(AES_CMD) != 0);
 	irq_enable(IRQ_AES);
 }
-
-void crypto_ipc(volatile ipc_request *req)
-{
-	switch (req->req) {
-		case IPC_KEYS_GETOTP:
-			memcpy((void *)req->args[0], &otp, sizeof(otp));
-			dc_flushrange((void *)req->args[0], sizeof(otp));
-			break;
-		case IPC_KEYS_GETEEP:
-			memcpy((void *)req->args[0], &seeprom, sizeof(seeprom));
-			dc_flushrange((void *)req->args[0], sizeof(seeprom));
-			break;
-		default:
-			gecko_printf("IPC: unknown SLOW CRYPTO request %04x\n",
-					req->req);
-	}
-	ipc_post(req->code, req->tag, 0);
-}
-
 
 static int _aes_irq = 0;
 
@@ -142,26 +123,29 @@ void aes_decrypt(u8 *src, u8 *dst, u32 blocks, u8 keep_iv)
 
 }
 
-void aes_ipc(volatile ipc_request *req)
+void aes_encrypt(u8 *src, u8 *dst, u32 blocks, u8 keep_iv)
 {
-	switch (req->req) {
-		case IPC_AES_RESET:
-			aes_reset();
-			break;
-		case IPC_AES_SETIV:
-			aes_set_iv((u8 *)req->args);
-			break;
-		case IPC_AES_SETKEY:
-			aes_set_key((u8 *)req->args);
-			break;
-		case IPC_AES_DECRYPT:
-			aes_decrypt((u8 *)req->args[0], (u8 *)req->args[1],
-				    req->args[2], req->args[3]);
-			break;
-		default:
-			gecko_printf("IPC: unknown SLOW AES request %04x\n",
-					req->req);
-	}
-	ipc_post(req->code, req->tag, 0);
+    dc_flushrange(src, blocks * 16);
+    dc_invalidaterange(dst, blocks * 16);
+    ahb_flush_to(AHB_AES);
+    
+    int this_blocks = 0;
+    while(blocks > 0) {
+        this_blocks = blocks;
+        if (this_blocks > 0x80)
+            this_blocks = 0x80;
+        
+        write32(AES_SRC, dma_addr(src));
+        write32(AES_DEST, dma_addr(dst));
+        
+        aes_command(AES_CMD_ENCRYPT, keep_iv, this_blocks);
+        
+        blocks -= this_blocks;
+        src += this_blocks<<4;
+        dst += this_blocks<<4;
+        keep_iv = 1;
+    }
+    
+    ahb_flush_from(AHB_AES);
+    ahb_flush_to(AHB_STARLET);
 }
-

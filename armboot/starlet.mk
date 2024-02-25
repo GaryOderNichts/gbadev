@@ -7,12 +7,12 @@ endif
 #$(error "Set WIIDEV in your environment.")
 #endif
 
-PREFIX = $(DEVKITARM)/bin/arm-eabi-
+PREFIX = $(DEVKITARM)/bin/arm-none-eabi-
 #PREFIX = $(WIIDEV)/bin/arm-eabi-
 
 CFLAGS = -mbig-endian -mcpu=arm926ej-s
 CFLAGS += -fomit-frame-pointer -ffunction-sections
-CFLAGS += -Wall -Wextra -Os -pipe
+CFLAGS += -Wall -Wextra -Os -pipe -Wno-builtin-declaration-mismatch
 ASFLAGS =
 LDFLAGS = -mbig-endian -n -nostartfiles -nodefaultlibs -Wl,-gc-sections -L$DEVKITARM/lib
 
